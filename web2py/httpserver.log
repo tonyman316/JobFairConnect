@@ -2800,3 +2800,10 @@
 127.0.0.1, 2018-10-26 23:51:21, GET, /init/companypost/delete_companypost/10, HTTP/1.1, 303, 0.148768
 127.0.0.1, 2018-10-26 23:51:21, GET, /init/default/index, HTTP/1.1, 200, 0.213589
 127.0.0.1, 2018-10-26 23:51:21, GET, /init/static/css/myapp.css, HTTP/1.1, 304, 0.002097
+127.0.0.1, 2018-10-27 11:47:23, GET, /init/companypost/index/7, HTTP/1.1, 200, 0.064035
+127.0.0.1, 2018-10-27 11:47:24, GET, /init/default/index, HTTP/1.1, 200, 0.028064
+127.0.0.1, 2018-10-27 11:47:26, GET, /init/companypost/index/7, HTTP/1.1, 200, 0.028256
+127.0.0.1, 2018-10-27 11:47:33, GET, /init/companypost/add_companypost/7, HTTP/1.1, 200, 0.023879
+127.0.0.1, 2018-10-27 11:47:35, POST, /init/companypost/add_companypost/7, HTTP/1.1, 303, 0.027907
+127.0.0.1, 2018-10-27 11:47:35, GET, /init/companypost/index/7, HTTP/1.1, 200, 0.043195
+127.0.0.1, 2018-10-27 11:47:40, GET, /init/default/index, HTTP/1.1, 200, 0.023699

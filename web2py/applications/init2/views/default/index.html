@@ -1,0 +1,58 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+{{end}}
+
+<div class="main_content">
+
+  <p>
+    <a href="{{=URL('eventpost', 'add_eventpost')}}" class="btn large orange rounded right"><b>+ New Event</b></a>
+  </p>
+<div class="alleventposts" > <h5> Events: </h5>
+{{for r in rows:}}
+  <div class="eventpost">
+    <div class="author">Organizer: {{=r['eventpost_author']}}</div>
+    <div class="title">Event: {{=r['eventpost_title']}}</div>
+    <div class="content">Details: {{=r['eventpost_content']}}</div>
+    <br>
+    <div class="button_row">
+      {{if auth.user is not None and auth.user.email == r['eventpost_author']:}}
+        <a href="{{=URL('eventpost', 'edit_eventpost', args=[r['id']])}}" class="btn">
+          <i class="fa fa-pencil-square-o"></i> Edit
+        </a>
+        <a href="{{=URL('eventpost', 'delete_eventpost', args=[r['id']], user_signature=True)}}" class="btn">
+          <i class="fa fa-trash-o"></i> Delete
+        </a>
+      {{pass}}
+      {{if auth.user is not None:}}
+        <a href="{{=URL('companypost', 'add_companypost', args=[r['id']])}}" class="btn">
+          <i class="fa fa-plus"></i> Join Event
+        </a>
+      {{pass}}
+    </div>
+
+    <!-- Here we display the replies.  If you are the author of a companypost, you can edit/delete it. -->
+    <br><div class="padded"> Company Posts:</div>
+      {{for companypost in r['companypost_list']:}}
+        <div class="companypost padded">
+          <!-- Display here a companypost -->
+          <div class="companypost_author ">Author: {{=companypost['companypost_author']}}</div>
+          <div class="companypost_content">Content: {{=companypost['companypost_content']}}</div>
+          {{if auth.user is not None and auth.user.email == companypost['companypost_author']:}}
+            <div class="companypost options">
+              <a href="{{=URL('companypost', 'edit_companypost', args=[companypost['companypost_id']], user_signature=True)}}" class="btn">
+                <i class="fa fa-pencil-square-o"></i> Edit
+              </a>
+              <a href="{{=URL('companypost', 'delete_companypost', args=[companypost['companypost_id']], user_signature=True)}}" class="btn">
+                <i class="fa fa-trash-o"></i> Delete
+              </a>
+            </div>
+          {{pass}}
+        </div>
+
+      {{pass}}
+  </div>
+  <hr>
+{{pass}}
+</div>
+</div>

@@ -1,0 +1,15 @@
+<!-- Display here an application -->
+{{=application['application_id']}} |
+{{=application['slot_start']}} - {{=application['slot_end']}} |
+{{=application['applicant_id']}} |
+{{=application['resume_file']}} |
+{{=application['status']}} |
+
+<!-- check status and show buttons             -->
+{{if auth.user is not None:}}
+{{if auth.user.role == 'student':}}
+  <a href="{{=URL('application', 'edit_application', args=[application['application_id']])}}" class="btn orange rounded">
+    <i class="fa fa-plus"></i> Sign up
+  </a>
+{{pass}}
+{{pass}}

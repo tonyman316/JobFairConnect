@@ -13,3 +13,41 @@
   </a>
 {{pass}}
 {{pass}}
+
+
+{{if auth.user is not None:}}
+{{if auth.user.role == 'company' and auth.user.email == email:}}
+  {{is_joined = True}}
+  <a href="{{=URL('companypost', 'index', args=[r['id']])}}" class="btn green rounded">
+    <i class="fa fa-check"></i> Joined !
+  </a>
+{{elif is_joined == False:}}
+  <a href="{{=URL('companypost', 'add_companypost', args=[r['id']])}}" class="btn orange rounded">
+    <i class="fa fa-plus"></i> Join Event
+  </a>
+{{pass}}
+{{pass}}
+
+
+{{if auth.user is not None:}}
+{{if auth.user.role == 'company':}}
+  <a href="{{=URL('companypost', 'add_companypost', args=[r['id']])}}" class="btn orange rounded">
+    <i class="fa fa-plus"></i> Join Event
+  </a>
+{{pass}}
+{{pass}}
+
+
+{{if auth.user is not None:}}
+  {{for companypost in r['companypost_list']:}}
+    {{email = companypost['recruiter']}}
+    {{if auth.user.role == 'company' and auth.user.email == email:}}
+      {{is_joined = True}}
+    {{pass}}
+  {{pass}}
+{{pass}}
+
+{{elif is_joined == False and auth.user.role == 'company':}}
+  <a href="{{=URL('companypost', 'add_companypost', args=[r['id']])}}" class="btn orange rounded">
+    <i class="fa fa-plus"></i> Join Event
+  </a>

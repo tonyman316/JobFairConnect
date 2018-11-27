@@ -1,0 +1,87 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    // var add_companypost_url = "{{=URL('companypost', 'add_companypost')}}";
+    // var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
+    var is_logged_in = {{='false' if auth.user is None else 'true'}};
+</script>
+{{end}}
+
+  <div>
+    {{if auth.user is not None:}}
+    {{if auth.user.role == 'school':}}
+      <a href="{{=URL('eventpost', 'add_eventpost')}}" class="btn large orange rounded right new_event event_pulse">+ New Event</a>
+    {{pass}}
+    {{pass}}
+  </div>
+
+<div class="main_content">
+{{for r in rows:}}
+  <div class="post">
+    <div class="event_name">{{=r['event_name']}}</div> <br />
+    <div class="event_organizer">Organizer: {{=r['event_organizer']}}</div>
+    <div class="event_description">Description: {{=r['event_description']}}</div><br />
+
+    <div class="event_date">Date: {{=r['event_date']}}</div>
+    <div class="event_time">Time: {{=r['start_time']}} - {{=r['end_time']}}</div>
+    <div class="event_location">Location: {{=r['event_location']}}</div>
+    <div class="company_capacity">Company capacity: {{=r['company_capacity']}}</div>
+    <div class="student_capacity">Student capacity: {{=r['student_capacity']}}</div>
+
+    <div class="button_row spaced">
+      {{if auth.user is not None and auth.user.email == r['event_organizer']:}}
+        <a href="{{=URL('eventpost', 'edit_eventpost', args=[r['id']])}}" class="btn olive rounded">
+          <i class="fa fa-pencil-square-o"></i> Edit
+        </a>
+        <a href="{{=URL('eventpost', 'delete_eventpost', args=[r['id']], user_signature=True)}}" class="btn red rounded">
+          <i class="fa fa-trash-o"></i> Delete
+        </a>
+      {{pass}}
+
+      <a href="{{=URL('companypost', 'index', args=[r['id']])}}" class="btn glass rounded">
+        <i class="fa fa-building-o"></i> Company List
+      </a>
+
+      {{is_joined = False}}
+      {{if auth.user is not None:}}
+        {{for companypost in r['companypost_list']:}}
+          {{email = companypost['recruiter']}}
+          {{if auth.user.role == 'company' and auth.user.email == email:}}
+            {{is_joined = True}}
+          {{pass}}
+        {{pass}}
+      {{pass}}
+
+      {{for companypost in r['companypost_list']:}}
+        {{email = companypost['recruiter']}}
+
+        {{if auth.user is not None:}}
+        {{if is_joined == True and auth.user.role == 'company' and auth.user.email == email:}}
+          <a href="{{=URL('companypost', 'index', args=[r['id']])}}" class="btn green rounded">
+            <i class="fa fa-check"></i> Joined !
+          </a>
+        {{elif is_joined == False and auth.user.role == 'company' and auth.user.email != email:}}
+          <a href="{{=URL('companypost', 'add_companypost', args=[r['id']])}}" class="btn orange rounded">
+            <i class="fa fa-plus"></i> Join Event
+          </a>
+        {{pass}}
+        {{pass}}
+      {{pass}}
+
+      {{if auth.user is not None:}}
+      {{if auth.user.role == 'student':}}
+        <a href="{{=URL('companypost', 'index', args=[r['id']])}}" class="btn orange rounded">
+          <i class="fa fa-plus"></i> Join Event
+        </a>
+      {{pass}}
+      {{pass}}
+
+    </div>
+  </div>
+{{pass}}
+
+</div>
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
